@@ -1,0 +1,6 @@
+.DS_Store
+build/extracted/
+build/*.tmp
+__pycache__/
+*.pyc
+.venv/

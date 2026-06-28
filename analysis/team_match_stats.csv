@@ -1,0 +1,7 @@
+team,team_label,match_id,opponent_label,minutes_played,goals,assists,expected_goals_xg,expected_goals_on_target_xgot,expected_assists_xa,xg_xa,total_shots,shots_on_target,chances_created,touches_in_opposition_box,passes_into_final_third,accurate_passes,dispossessed,defensive_actions,recoveries,dribbled_past,duels_won,duels_lost,fouls_committed
+brasil,Brasil,brasil_x_escocia_estatisticas,Escocia,990.0,3.0,3.0,4.34,4.81,2.5500000000000003,6.890000000000001,21.0,9.0,18.0,35.0,68.0,564.0,6.0,54.0,48.0,2.0,49.0,29.0,11.0
+brasil,Brasil,brasil_x_haiti_estatisticas,Haiti,990.0,3.0,2.0,1.7999999999999998,2.33,1.1300000000000001,2.93,8.0,5.0,6.0,24.0,53.0,462.0,5.0,46.0,40.0,3.0,52.0,42.0,13.0
+brasil,Brasil,brasil_x_marrocos_estatisticas,Marrocos,990.0,1.0,1.0,1.26,1.37,0.64,1.9,12.0,5.0,10.0,22.0,54.0,449.0,4.0,57.0,46.0,16.0,53.0,62.0,16.0
+japao,Japão,japao_x_holanda_estatisticas,Holanda,990.0,2.0,2.0,0.5900000000000001,1.33,0.58,1.17,10.0,3.0,10.0,19.0,49.0,286.0,5.0,48.0,26.0,8.0,28.0,46.0,7.0
+japao,Japão,japao_x_suecia_estatisticas,Suecia,990.0,1.0,1.0,1.2100000000000002,1.27,0.6900000000000001,1.9,8.0,3.0,8.0,11.0,51.0,378.0,3.0,60.0,42.0,4.0,47.0,44.0,20.0
+japao,Japão,japao_x_tunisia_estatisticas,Tunisia,990.0,4.0,4.0,2.15,2.73,1.42,3.57,11.0,5.0,9.0,17.0,70.0,521.0,7.0,51.0,35.0,2.0,43.0,38.0,15.0

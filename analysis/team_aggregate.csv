@@ -1,0 +1,3 @@
+team,team_label,minutes_played,goals,assists,expected_goals_xg,expected_goals_on_target_xgot,expected_assists_xa,xg_xa,total_shots,shots_on_target,chances_created,touches_in_opposition_box,passes_into_final_third,accurate_passes,dispossessed,defensive_actions,recoveries,dribbled_past,duels_won,duels_lost,fouls_committed,duel_win_rate,retention_risk,shot_on_target_rate
+brasil,Brasil,2970.0,7.0,6.0,7.3999999999999995,8.51,4.32,11.72,41.0,19.0,34.0,81.0,175.0,1475.0,15.0,157.0,134.0,21.0,154.0,133.0,40.0,0.5365853658536586,0.10033898305084746,0.4634146341463415
+japao,Japão,2970.0,7.0,7.0,3.95,5.33,2.69,6.64,29.0,11.0,27.0,47.0,170.0,1185.0,15.0,159.0,103.0,14.0,118.0,128.0,42.0,0.4796747967479675,0.12067510548523207,0.3793103448275862
