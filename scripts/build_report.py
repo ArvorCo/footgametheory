@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import csv
-import html
 import math
 import re
 import shutil
@@ -13,7 +12,6 @@ import struct
 import unicodedata
 import zipfile
 import zlib
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
@@ -48,19 +46,29 @@ NUMERIC_COLUMNS = [
     "xG + xA",
     "Total shots",
     "Accurate passes",
+    "Accurate passes (total)",
+    "Accurate passes (%)",
     "Chances created",
     "Shots on target",
     "Shots off target",
     "Blocked shots",
     "Shot accuracy",
+    "Shot accuracy (total)",
+    "Shot accuracy (%)",
     "Shotmap",
     "Defensive actions",
     "Touches",
     "Touches in opposition box",
     "Successful dribbles",
+    "Successful dribbles (total)",
+    "Successful dribbles (%)",
     "Passes into final third",
     "Accurate crosses",
+    "Accurate crosses (total)",
+    "Accurate crosses (%)",
     "Accurate long balls",
+    "Accurate long balls (total)",
+    "Accurate long balls (%)",
     "Corners",
     "Dispossessed",
     "xG Non-penalty",
@@ -72,7 +80,11 @@ NUMERIC_COLUMNS = [
     "Recoveries",
     "Dribbled past",
     "Ground duels won",
+    "Ground duels won (total)",
+    "Ground duels won (%)",
     "Aerial duels won",
+    "Aerial duels won (total)",
+    "Aerial duels won (%)",
     "Was fouled",
     "Fouls committed",
     "Duels won",
@@ -104,6 +116,10 @@ def slugify(value: object) -> str:
 
 
 def metric_name(column: str) -> str:
+    if column.endswith(" (%)"):
+        return slugify(column.replace(" (%)", " pct"))
+    if column.endswith(" (total)"):
+        return slugify(column.replace(" (total)", " total"))
     return slugify(column)
 
 
@@ -141,6 +157,8 @@ def extract_archives() -> None:
     EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
     for archive in sorted(DATA_DIR.glob("*.zip")):
         target = EXTRACTED_DIR / archive.stem
+        if target.exists():
+            shutil.rmtree(target)
         target.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(archive) as zf:
             zf.extractall(target)
@@ -351,6 +369,8 @@ def match_heatmap_to_player(stats: pd.DataFrame, match_id: str, filename: str) -
 
 
 def collect_heatmaps(stats: pd.DataFrame) -> pd.DataFrame:
+    if ASSET_DIR.exists():
+        shutil.rmtree(ASSET_DIR)
     ASSET_DIR.mkdir(parents=True, exist_ok=True)
     records = []
     for heatmap in sorted(EXTRACTED_DIR.glob("*/heatmaps/*_heatmap.png")):
@@ -403,10 +423,20 @@ def percentile(series: pd.Series, higher_is_better: bool = True) -> pd.Series:
     return ranked if higher_is_better else 100 - ranked
 
 
+def safe_rate(numerator: pd.Series, denominator: pd.Series, default: float = 0.0) -> pd.Series:
+    rate = numerator / denominator.replace(0, np.nan)
+    return rate.replace([np.inf, -np.inf], np.nan).fillna(default)
+
+
 def build_player_aggregates(stats: pd.DataFrame, heatmaps: pd.DataFrame) -> pd.DataFrame:
     active = stats[stats["played"]].copy()
     numeric = [COL[c] for c in NUMERIC_COLUMNS if COL[c] in active.columns]
-    sum_cols = [col for col in numeric if col not in {COL["FotMob rating"], COL["Shirt"], COL["Position"]}]
+    sum_cols = [
+        col
+        for col in numeric
+        if col not in {COL["FotMob rating"], COL["Shirt"], COL["Position"]}
+        and not col.endswith("_pct")
+    ]
     grouped = active.groupby(["team", "team_label", "player_key", "player_label", COL["Player"], COL["Shirt"], COL["Position"], "role"], as_index=False)
     agg = grouped[sum_cols].sum()
     agg = agg.rename(columns={COL["Minutes played"]: "minutes_played"})
@@ -434,14 +464,18 @@ def build_player_aggregates(stats: pd.DataFrame, heatmaps: pd.DataFrame) -> pd.D
         "xg_xa",
         "total_shots",
         "accurate_passes",
+        "accurate_passes_total",
         "chances_created",
         "shots_on_target",
         "touches",
         "touches_in_opposition_box",
         "successful_dribbles",
+        "successful_dribbles_total",
         "passes_into_final_third",
         "accurate_crosses",
+        "accurate_crosses_total",
         "accurate_long_balls",
+        "accurate_long_balls_total",
         "dispossessed",
         "defensive_actions",
         "tackles",
@@ -451,7 +485,9 @@ def build_player_aggregates(stats: pd.DataFrame, heatmaps: pd.DataFrame) -> pd.D
         "recoveries",
         "dribbled_past",
         "ground_duels_won",
+        "ground_duels_won_total",
         "aerial_duels_won",
+        "aerial_duels_won_total",
         "fouls_committed",
         "duels_won",
         "duels_lost",
@@ -461,19 +497,35 @@ def build_player_aggregates(stats: pd.DataFrame, heatmaps: pd.DataFrame) -> pd.D
         "goals_conceded",
         "xgot_faced",
         "goals_prevented",
+        "shot_accuracy",
+        "shot_accuracy_total",
     ]
     for col in base_metrics:
         if col not in agg:
             agg[col] = 0.0
 
     agg["xgi"] = agg["expected_goals_xg"] + agg["expected_assists_xa"]
-    agg["duel_win_rate"] = agg["duels_won"] / (agg["duels_won"] + agg["duels_lost"]).replace(0, np.nan)
-    agg["duel_win_rate"] = agg["duel_win_rate"].fillna(0.5)
-    agg["retention_risk"] = (agg["dispossessed"] + agg["duels_lost"]) / agg["touches"].replace(0, np.nan)
-    agg["retention_risk"] = agg["retention_risk"].fillna(0.0)
-    agg["pass_security_proxy"] = (agg["accurate_passes"] / agg["touches"].replace(0, np.nan)).fillna(0.0)
-    agg["shot_quality"] = (agg["expected_goals_xg"] / agg["total_shots"].replace(0, np.nan)).fillna(0.0)
-    agg = add_per90(agg, base_metrics + ["xgi"])
+    agg["total_passes"] = agg["accurate_passes_total"]
+    agg["inaccurate_passes"] = (agg["total_passes"] - agg["accurate_passes"]).clip(lower=0)
+    agg["pass_accuracy"] = safe_rate(agg["accurate_passes"], agg["total_passes"])
+    agg["pass_error_rate"] = safe_rate(agg["inaccurate_passes"], agg["total_passes"])
+    agg["progressive_pass_rate"] = safe_rate(agg["passes_into_final_third"], agg["total_passes"])
+    agg["dribble_success_rate"] = safe_rate(agg["successful_dribbles"], agg["successful_dribbles_total"])
+    agg["cross_accuracy"] = safe_rate(agg["accurate_crosses"], agg["accurate_crosses_total"])
+    agg["long_ball_accuracy"] = safe_rate(agg["accurate_long_balls"], agg["accurate_long_balls_total"])
+    agg["shot_accuracy_rate"] = safe_rate(agg["shot_accuracy"], agg["shot_accuracy_total"])
+    missing_shot = agg["shot_accuracy_rate"] == 0
+    agg.loc[missing_shot, "shot_accuracy_rate"] = safe_rate(
+        agg.loc[missing_shot, "shots_on_target"],
+        agg.loc[missing_shot, "total_shots"],
+    )
+    agg["ground_duel_win_rate"] = safe_rate(agg["ground_duels_won"], agg["ground_duels_won_total"], 0.5)
+    agg["aerial_duel_win_rate"] = safe_rate(agg["aerial_duels_won"], agg["aerial_duels_won_total"], 0.5)
+    agg["duel_win_rate"] = safe_rate(agg["duels_won"], agg["duels_won"] + agg["duels_lost"], 0.5)
+    agg["retention_risk"] = safe_rate(agg["dispossessed"] + agg["duels_lost"], agg["touches"])
+    agg["pass_security_proxy"] = agg["pass_accuracy"]
+    agg["shot_quality"] = safe_rate(agg["expected_goals_xg"], agg["total_shots"])
+    agg = add_per90(agg, base_metrics + ["xgi", "total_passes", "inaccurate_passes"])
 
     if not heatmaps.empty:
         hm = heatmaps.groupby(["team", "player_key"], as_index=False).apply(aggregate_heatmap, include_groups=False)
@@ -547,6 +599,8 @@ def score_players(agg: pd.DataFrame) -> pd.DataFrame:
         universe = out.copy()
 
     def p(col: str, good: bool = True) -> pd.Series:
+        if col not in universe:
+            return pd.Series(50.0, index=out.index)
         values = percentile(universe[col], good)
         return out["player_key"].map(dict(zip(universe["player_key"], values))).fillna(50)
 
@@ -554,9 +608,11 @@ def score_players(agg: pd.DataFrame) -> pd.DataFrame:
         [
             (p("xgi90"), 0.25),
             (p("expected_goals_on_target_xgot90"), 0.13),
-            (p("shots_on_target90"), 0.11),
+            (p("shots_on_target90"), 0.09),
+            (p("shot_accuracy_rate"), 0.07),
             (p("touches_in_opposition_box90"), 0.14),
-            (p("successful_dribbles90"), 0.10),
+            (p("successful_dribbles90"), 0.08),
+            (p("dribble_success_rate"), 0.07),
             (p("goals90"), 0.13),
             (p("assists90"), 0.07),
             (p("dispossessed90", False), 0.07),
@@ -567,10 +623,13 @@ def score_players(agg: pd.DataFrame) -> pd.DataFrame:
             (p("expected_assists_xa90"), 0.23),
             (p("chances_created90"), 0.22),
             (p("passes_into_final_third90"), 0.18),
-            (p("accurate_crosses90"), 0.10),
-            (p("accurate_long_balls90"), 0.08),
+            (p("progressive_pass_rate"), 0.10),
+            (p("accurate_crosses90"), 0.08),
+            (p("cross_accuracy"), 0.05),
+            (p("accurate_long_balls90"), 0.06),
+            (p("long_ball_accuracy"), 0.04),
             (p("big_chances_created90"), 0.12),
-            (p("pass_security_proxy"), 0.07),
+            (p("pass_accuracy"), 0.12),
         ]
     )
     out["defense_index"] = weighted_index(
@@ -583,6 +642,8 @@ def score_players(agg: pd.DataFrame) -> pd.DataFrame:
             (p("clearances90"), 0.09),
             (p("ground_duels_won90"), 0.08),
             (p("aerial_duels_won90"), 0.06),
+            (p("ground_duel_win_rate"), 0.06),
+            (p("aerial_duel_win_rate"), 0.04),
             (p("duel_win_rate"), 0.08),
             (p("dribbled_past90", False), 0.05),
             (p("fouls_committed90", False), 0.02),
@@ -591,8 +652,9 @@ def score_players(agg: pd.DataFrame) -> pd.DataFrame:
     out["security_index"] = weighted_index(
         [
             (p("duel_win_rate"), 0.22),
-            (p("pass_security_proxy"), 0.22),
-            (p("retention_risk", False), 0.25),
+            (p("pass_accuracy"), 0.25),
+            (p("pass_error_rate", False), 0.18),
+            (p("retention_risk", False), 0.18),
             (p("dispossessed90", False), 0.12),
             (p("duels_lost90", False), 0.12),
             (p("dribbled_past90", False), 0.07),
@@ -602,8 +664,11 @@ def score_players(agg: pd.DataFrame) -> pd.DataFrame:
         [
             (p("passes_into_final_third90"), 0.28),
             (p("accurate_long_balls90"), 0.16),
-            (p("accurate_passes90"), 0.18),
-            (p("touches90"), 0.13),
+            (p("long_ball_accuracy"), 0.08),
+            (p("accurate_passes90"), 0.14),
+            (p("total_passes90"), 0.10),
+            (p("pass_accuracy"), 0.09),
+            (p("touches90"), 0.10),
             (p("mid_third_share"), 0.09),
             (p("high_third_share"), 0.16),
         ]
@@ -614,7 +679,7 @@ def score_players(agg: pd.DataFrame) -> pd.DataFrame:
             (p("saves90"), 0.20),
             (p("goals_prevented"), 0.24),
             (p("goals_conceded90", False), 0.18),
-            (p("pass_security_proxy"), 0.10),
+            (p("pass_accuracy"), 0.10),
         ]
     )
     out["rating_index"] = p("weighted_rating")
@@ -674,13 +739,27 @@ def build_team_tables(stats: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
         COL["Total shots"],
         COL["Shots on target"],
         COL["Chances created"],
+        COL["Touches"],
         COL["Touches in opposition box"],
         COL["Passes into final third"],
         COL["Accurate passes"],
+        COL["Accurate passes (total)"],
+        COL["Shot accuracy"],
+        COL["Shot accuracy (total)"],
+        COL["Successful dribbles"],
+        COL["Successful dribbles (total)"],
+        COL["Accurate crosses"],
+        COL["Accurate crosses (total)"],
+        COL["Accurate long balls"],
+        COL["Accurate long balls (total)"],
         COL["Dispossessed"],
         COL["Defensive actions"],
         COL["Recoveries"],
         COL["Dribbled past"],
+        COL["Ground duels won"],
+        COL["Ground duels won (total)"],
+        COL["Aerial duels won"],
+        COL["Aerial duels won (total)"],
         COL["Duels won"],
         COL["Duels lost"],
         COL["Fouls committed"],
@@ -688,9 +767,26 @@ def build_team_tables(stats: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     team_match = active.groupby(["team", "team_label", "match_id", "opponent_label"], as_index=False)[metrics].sum()
     team_match = team_match.rename(columns={col: metric_name(col) for col in metrics})
     team = team_match.groupby(["team", "team_label"], as_index=False).sum(numeric_only=True)
-    team["duel_win_rate"] = team["duels_won"] / (team["duels_won"] + team["duels_lost"]).replace(0, np.nan)
-    team["retention_risk"] = (team["dispossessed"] + team["duels_lost"]) / team["accurate_passes"].replace(0, np.nan)
-    team["shot_on_target_rate"] = team["shots_on_target"] / team["total_shots"].replace(0, np.nan)
+    for frame in (team_match, team):
+        frame["total_passes"] = frame["accurate_passes_total"]
+        frame["inaccurate_passes"] = (frame["total_passes"] - frame["accurate_passes"]).clip(lower=0)
+        frame["pass_accuracy"] = safe_rate(frame["accurate_passes"], frame["total_passes"])
+        frame["pass_error_rate"] = safe_rate(frame["inaccurate_passes"], frame["total_passes"])
+        frame["progressive_pass_rate"] = safe_rate(frame["passes_into_final_third"], frame["total_passes"])
+        frame["shot_accuracy_rate"] = safe_rate(frame["shot_accuracy"], frame["shot_accuracy_total"])
+        fallback = frame["shot_accuracy_rate"] == 0
+        frame.loc[fallback, "shot_accuracy_rate"] = safe_rate(
+            frame.loc[fallback, "shots_on_target"],
+            frame.loc[fallback, "total_shots"],
+        )
+        frame["dribble_success_rate"] = safe_rate(frame["successful_dribbles"], frame["successful_dribbles_total"])
+        frame["cross_accuracy"] = safe_rate(frame["accurate_crosses"], frame["accurate_crosses_total"])
+        frame["long_ball_accuracy"] = safe_rate(frame["accurate_long_balls"], frame["accurate_long_balls_total"])
+        frame["ground_duel_win_rate"] = safe_rate(frame["ground_duels_won"], frame["ground_duels_won_total"], 0.5)
+        frame["aerial_duel_win_rate"] = safe_rate(frame["aerial_duels_won"], frame["aerial_duels_won_total"], 0.5)
+        frame["duel_win_rate"] = safe_rate(frame["duels_won"], frame["duels_won"] + frame["duels_lost"], 0.5)
+        frame["retention_risk"] = safe_rate(frame["dispossessed"] + frame["duels_lost"], frame["touches"])
+        frame["shot_on_target_rate"] = safe_rate(frame["shots_on_target"], frame["total_shots"])
     team = team.fillna(0)
     return team_match, team
 
@@ -710,9 +806,10 @@ def save_sqlite(stats: pd.DataFrame, heatmaps: pd.DataFrame, players: pd.DataFra
 from report_html import render_report
 
 
-def write_metric_exports(players: pd.DataFrame, team_match: pd.DataFrame, team: pd.DataFrame) -> None:
+def write_metric_exports(stats: pd.DataFrame, players: pd.DataFrame, team_match: pd.DataFrame, team: pd.DataFrame) -> None:
     analysis_dir = ROOT / "analysis"
     analysis_dir.mkdir(parents=True, exist_ok=True)
+    stats.to_csv(analysis_dir / "player_match_stats.csv", index=False, quoting=csv.QUOTE_MINIMAL)
     players.to_csv(analysis_dir / "player_aggregate.csv", index=False, quoting=csv.QUOTE_MINIMAL)
     team_match.to_csv(analysis_dir / "team_match_stats.csv", index=False, quoting=csv.QUOTE_MINIMAL)
     team.to_csv(analysis_dir / "team_aggregate.csv", index=False, quoting=csv.QUOTE_MINIMAL)
@@ -726,7 +823,7 @@ def main() -> None:
     players = build_player_aggregates(stats, heatmaps)
     team_match, team = build_team_tables(stats)
     save_sqlite(stats, heatmaps, players, team_match, team)
-    write_metric_exports(players, team_match, team)
+    write_metric_exports(stats, players, team_match, team)
     REPORT_PATH.write_text(render_report(stats, heatmaps, players, team_match, team), encoding="utf-8")
     print(f"Wrote {REPORT_PATH.relative_to(ROOT)}")
     print(f"Wrote {DB_PATH.relative_to(ROOT)}")
