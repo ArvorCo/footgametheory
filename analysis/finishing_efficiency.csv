@@ -1,0 +1,19 @@
+team,team_label,player_key,player_label,role,minutes_played,goals,expected_goals_xg,goals_minus_xg,finishing_ratio,shot_quality,total_shots
+brasil,Brasil,matheus_cunha_9,Matheus Cunha (9),Ataque,169.0,3.0,1.22,1.78,2.459016393442623,0.1742857142857143,7.0
+japao,Japão,ayase_ueda_18,Ayase Ueda (18),Ataque,234.0,2.0,0.72,1.28,2.7777777777777777,0.10285714285714286,7.0
+japao,Japão,daichi_kamada_15,Daichi Kamada (15),Meio,253.0,2.0,0.87,1.13,2.2988505747126435,0.435,2.0
+japao,Japão,keito_nakamura_13,Keito Nakamura (13),Ataque,244.0,1.0,0.16,0.84,,0.032,5.0
+brasil,Brasil,vinicius_junior_7,Vinícius Júnior (7),Ataque,261.0,4.0,3.5100000000000002,0.48999999999999977,1.1396011396011396,0.29250000000000004,12.0
+japao,Japão,junya_ito_14,Junya Ito (14),Ataque,137.0,1.0,0.64,0.36,1.5625,0.32,2.0
+japao,Japão,daizen_maeda_11,Daizen Maeda (11),Ataque,156.0,1.0,0.68,0.31999999999999995,1.4705882352941175,0.34,2.0
+brasil,Brasil,bruno_guimaraes_8,Bruno Guimarães (8),Meio,251.0,0.0,0.04,-0.04,,0.02,2.0
+japao,Japão,ao_tanaka_7,Ao Tanaka (7),Meio,180.0,0.0,0.08,-0.08,,0.04,2.0
+brasil,Brasil,marquinhos_4,Marquinhos (4),Defesa,270.0,0.0,0.09,-0.09,,0.045,2.0
+brasil,Brasil,danilo_18,Danilo (18),Meio,19.0,0.0,0.09,-0.09,,0.045,2.0
+brasil,Brasil,douglas_santos_16,Douglas Santos (16),Defesa,262.0,0.0,0.14,-0.14,,0.07,2.0
+japao,Japão,yukinari_sugawara_2,Yukinari Sugawara (2),Defesa,121.0,0.0,0.17,-0.17,,0.085,2.0
+brasil,Brasil,lucas_paqueta_20,Lucas Paquetá (20),Meio,191.0,0.0,0.25,-0.25,0.0,0.08333333333333333,3.0
+japao,Japão,koki_ogawa_19,Koki Ogawa (19),Ataque,39.0,0.0,0.36,-0.36,0.0,0.12,3.0
+brasil,Brasil,raphinha_11,Raphinha (11),Ataque,130.0,0.0,0.4,-0.4,0.0,0.13333333333333333,3.0
+brasil,Brasil,rayan_26,Rayan (26),Ataque,132.0,0.0,0.65,-0.65,0.0,0.325,2.0
+brasil,Brasil,igor_thiago_25,Igor Thiago (25),Ataque,62.0,0.0,0.66,-0.66,0.0,0.33,2.0

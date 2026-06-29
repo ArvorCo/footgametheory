@@ -1,0 +1,15 @@
+metric,value
+lambda_brasil,1.652203915313657
+lambda_japao,1.0263202878893767
+p_vitoria_brasil,0.5199832723912764
+p_empate,0.2448122302540516
+p_vitoria_japao,0.23520449735467192
+p_brasil_clean_sheet,0.3583230633601868
+p_japao_clean_sheet,0.1916271129602089
+p_over_2_5,0.5011001489180635
+placar_top1,1-1 (11.6%)
+placar_top2,1-0 (11.3%)
+placar_top3,2-1 (9.6%)
+placar_top4,2-0 (9.4%)
+placar_top5,0-1 (7.0%)
+placar_top6,0-0 (6.9%)

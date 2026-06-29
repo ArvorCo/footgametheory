@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foot Game Theory · Brasil × Japão · Moneyball da Copa 2026</title>
+<meta name="description" content="O dossiê Moneyball de Brasil × Japão na Copa 2026: probabilidade de placar, heatmaps de território, ranking de jogadores e veredito tático. Por Arvor Intelligence.">
+<link rel="canonical" href="https://footgametheory.arvor.co/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="author" content="Arvor Intelligence">
+<meta name="theme-color" content="#0b0f0d">
+<meta property="og:site_name" content="Foot Game Theory · Arvor Intelligence">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Foot Game Theory · Brasil × Japão · Moneyball da Copa 2026">
+<meta property="og:description" content="O dossiê Moneyball de Brasil × Japão na Copa 2026: probabilidade de placar, heatmaps de território, ranking de jogadores e veredito tático. Por Arvor Intelligence.">
+<meta property="og:url" content="https://footgametheory.arvor.co/">
+<meta property="og:image" content="https://footgametheory.arvor.co/assets/og-cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Foot Game Theory — Brasil × Japão, Moneyball da Copa por Arvor Intelligence">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@leonardodias">
+<meta name="twitter:creator" content="@leonardodias">
+<meta name="twitter:title" content="Foot Game Theory · Brasil × Japão · Moneyball da Copa 2026">
+<meta name="twitter:description" content="O dossiê Moneyball de Brasil × Japão na Copa 2026: probabilidade de placar, heatmaps de território, ranking de jogadores e veredito tático. Por Arvor Intelligence.">
+<meta name="twitter:image" content="https://footgametheory.arvor.co/assets/og-cover.png">
+<meta name="twitter:image:alt" content="Foot Game Theory — Brasil × Japão, Moneyball da Copa por Arvor Intelligence">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "name": "Arvor Intelligence", "url": "https://arvor.co", "logo": "https://footgametheory.arvor.co/assets/arvor_logo.png"}, {"@type": "WebSite", "name": "Foot Game Theory · Brasil × Japão · Moneyball da Copa 2026", "description": "O dossiê Moneyball de Brasil × Japão na Copa 2026: probabilidade de placar, heatmaps de território, ranking de jogadores e veredito tático. Por Arvor Intelligence.", "url": "https://footgametheory.arvor.co/", "publisher": {"@type": "Organization", "name": "Arvor Intelligence"}}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Source+Sans+3:wght@400;600;700;800;900&family=Spline+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0f0d; --paper:#faf8f3; --bra:#13a05c; --bra-d:#0c6f3f; --gold:#e8b923;
+  --jpn:#2a5fb0; --cream:#e9e3d6; --muted:#9aa39c;
+  --serif:"Fraunces",Georgia,serif; --sans:"Source Sans 3",system-ui,sans-serif;
+  --display:"Archivo Black",Impact,sans-serif; --mono:"Spline Sans Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:#14171d;font-family:var(--sans);font-size:16px;line-height:1.6}
+a{color:inherit}
+.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+
+/* HERO */
+.hero{position:relative;color:var(--cream);background:#0b0f0d center/cover no-repeat;background-blend-mode:normal}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(900px 500px at 80% -10%,rgba(19,160,92,.30),transparent)}
+.hero-in{position:relative;z-index:2;padding:30px 0 70px}
+.topbar{display:flex;align-items:center;gap:12px;padding:8px 0 40px}
+.topbar .logo{width:44px;height:44px;border-radius:11px;background:#fff;object-fit:contain;padding:5px}
+.topbar b{font-family:var(--display);font-size:.92rem;letter-spacing:.02em}
+.topbar .slug{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#9fc6ad}
+.topbar .gh{margin-left:auto;font-family:var(--mono);font-size:.78rem;color:#cfe7da;text-decoration:none;border:1px solid #2c4a3b;border-radius:999px;padding:8px 14px}
+.eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.8rem,8vw,6rem);line-height:.95;margin:14px 0 8px;color:#fff}
+.hero h1 .g{color:var(--bra)}
+.hero .sub{font-size:clamp(1.1rem,2.2vw,1.5rem);max-width:760px;color:#d8d2c4}
+.hero .by{margin-top:18px;font-family:var(--mono);font-size:.82rem;color:#9fc6ad}
+.hero .by a{color:#bfe3cf;font-weight:700}
+.statstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px;backdrop-filter:blur(4px)}
+.stat .sv{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.6rem);color:#fff;line-height:1}
+.stat .sl{font-weight:800;margin-top:6px;color:#e9e3d6}
+.stat .sx{font-family:var(--mono);font-size:.72rem;color:#9fc6ad}
+
+/* CARDS */
+section.band{padding:64px 0}
+.band h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.8rem,4vw,2.8rem);margin:0 0 6px}
+.band .lead{color:#3a4750;max-width:720px;margin:0 0 28px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{display:flex;flex-direction:column;text-decoration:none;background:#fff;border:1px solid #e2e0d6;border-radius:16px;padding:26px;box-shadow:0 10px 30px rgba(18,24,33,.06);transition:.16s}
+.card:hover{transform:translateY(-4px);border-color:var(--bra);box-shadow:0 16px 40px rgba(18,24,33,.10)}
+.ctag{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:999px;align-self:flex-start;margin-bottom:14px}
+.ctag.report{background:#eafbf2;color:var(--bra-d)} .ctag.rank{background:#fbf1d8;color:#8b630f} .ctag.soon{background:#ece9e2;color:#6b6f67}
+.card h3{font-family:var(--serif);font-weight:900;font-size:1.6rem;margin:0 0 8px}
+.card p{color:#4a555d;font-size:.96rem;margin:0 0 18px;flex:1}
+.card .go{font-weight:800;color:var(--bra-d)}
+
+/* ARVOR BAND */
+.arvor{background:#0b0f0d;color:var(--cream)}
+.arvor .wrap{padding:64px 0}
+.arvor .eyebrow{color:var(--gold)}
+.arvor h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;margin:10px 0 12px}
+.arvor p{max-width:680px;color:#cfd6cf}
+.arvor .cta{display:inline-block;margin-top:20px;background:var(--bra);color:#fff;font-weight:800;text-decoration:none;padding:13px 24px;border-radius:10px}
+.arvor .cta:hover{background:var(--bra-d)}
+
+/* OPEN SOURCE */
+.os .wrap{padding:54px 0}
+.os h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.6rem,3.5vw,2.4rem);margin:0 0 8px}
+.os p{color:#4a555d;max-width:720px}
+.os .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.os .pill{border:1px solid #cdc3b3;background:#fff;border-radius:999px;padding:7px 14px;font-size:.82rem;font-weight:700;color:#3a3f47}
+.os .ghbtn{display:inline-block;margin-top:20px;border:1px solid var(--ink);border-radius:10px;padding:12px 20px;font-weight:800;text-decoration:none;color:var(--ink)}
+
+footer{background:#0b0f0d;color:#9fc6ad;font-family:var(--mono);font-size:.8rem}
+footer .wrap{padding:30px 0;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+footer img{width:26px;height:26px;object-fit:contain}
+footer a{color:#bfe3cf}
+@media (max-width:820px){.statstrip{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="hero" style="background-image:linear-gradient(180deg,rgba(8,12,10,.72),rgba(8,12,10,.93)),url('assets/heatmaps/composite_confrontation.png')">
+  <div class="wrap hero-in">
+    <div class="topbar">
+      <img class="logo" src="assets/arvor_logo.png" alt="Arvor">
+      <div><b>Arvor Intelligence</b><div class="slug">Foot Game Theory</div></div>
+      <a class="gh" href="https://github.com/ArvorCo/footgametheory">★ GitHub</a>
+    </div>
+    <div class="eyebrow">Moneyball da Copa 2026 · Oitavas</div>
+    <h1>Brasil <span class="g">×</span> Japão,<br>decidido nos dados.</h1>
+    <p class="sub">Um dossiê tático-estatístico que junta modelo de probabilidade, mapas de calor de território e a alma da crônica. O craque encontra o cronista.</p>
+    <p class="by">por <a href="https://arvor.co">Arvor Intelligence · arvor.co</a></p>
+    <div class="statstrip"><div class="stat"><div class="sv">52%</div><div class="sl">vitória do Brasil</div><div class="sx">modelo de Poisson</div></div><div class="stat"><div class="sv">6</div><div class="sl">jogos analisados</div><div class="sx">fase de grupos</div></div><div class="stat"><div class="sv">33</div><div class="sl">jogadores rankeados</div><div class="sx">FGT Index</div></div><div class="stat"><div class="sv">96</div><div class="sl">heatmaps</div><div class="sx">processados</div></div></div>
+  </div>
+</header>
+
+<section class="band"><div class="wrap">
+  <h2>Três formas de ler o jogo</h2>
+  <p class="lead">Do laudo profundo à carta de um tweet. Tudo gerado a partir dos dados da fase de grupos, com método aberto.</p>
+  <div class="cards"><a class="card" href="brasil-japao-moneyball.html"><div class="ctag report">REPORT</div><h3>O Laudo</h3><p>O relatório completo: probabilidade de placar, heatmaps de território, radares, os 11 mapa a mapa, o plano de jogo e o veredito. Denso, visual e direto.</p><span class="go">Ler o laudo →</span></a><a class="card" href="ranking.html"><div class="ctag rank">RANK</div><h3>O Ranking</h3><p>Todos os jogadores de Brasil e Japão ordenados pelo FGT Index, o score Moneyball 0–100. Filtrável por seleção e ordenável por métrica.</p><span class="go">Ver o ranking →</span></a><a class="card" href="https://arvor.co"><div class="ctag soon">EM BREVE</div><h3>Próximos dossiês</h3><p>Se o Brasil avançar, o próximo relatório sai aqui — com o adversário definido e a mesma profundidade. Acompanhe a Arvor para não perder.</p><span class="go">Seguir a Arvor →</span></a></div>
+</div></section>
+
+<section class="arvor"><div class="wrap">
+  <div class="eyebrow">Quem faz</div>
+  <h2>Inteligência que vira decisão</h2>
+  <p>A <b>Arvor</b> transforma dados em vantagem — de futebol a finanças, de IA a estratégia. O Foot Game Theory é uma amostra do que fazemos: pegar o caos dos números e devolver clareza, narrativa e ação.</p>
+  <a class="cta" href="https://arvor.co">Conheça a Arvor →</a>
+</div></section>
+
+<section class="os"><div class="wrap">
+  <h2>Construído no aberto</h2>
+  <p>Para quem é técnico: <b>código, dados e metodologia são públicos</b> no GitHub. O pipeline extrai os dados, calcula o FGT Index, simula o placar por Poisson, compõe os heatmaps e gera o site — tudo reprodutível com um comando.</p>
+  <div class="pills">
+    <span class="pill">Python · pandas · numpy</span><span class="pill">Poisson / Monte Carlo</span>
+    <span class="pill">FGT Index</span><span class="pill">Heatmaps compostos</span>
+    <span class="pill">Pillow · scikit-learn</span><span class="pill">Zero-lint</span>
+  </div>
+  <a class="ghbtn" href="https://github.com/ArvorCo/footgametheory">Ver o código no GitHub →</a>
+</div></section>
+
+<footer><div class="wrap">
+  <img src="assets/arvor_logo.png" alt="Arvor">
+  <span><b style="color:#e9e3d6">Arvor Intelligence</b> · <a href="https://arvor.co">arvor.co</a></span>
+  <span style="margin-left:auto"><a href="https://github.com/ArvorCo/footgametheory">GitHub</a> · Foot Game Theory · Copa 2026</span>
+</div></footer>
+</body>
+</html>

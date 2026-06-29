@@ -1,0 +1,238 @@
+{
+  "header": {
+    "slug": "FOOT GAME THEORY · DOSSIÊ · BRASIL × JAPÃO",
+    "title": "O 11 do Brasil, Homem a Homem",
+    "subtitle": "A planilha que pensa e o coração que pulsa, na véspera das oitavas",
+    "intro": "Segunda-feira, 29 de junho. O modelo dá 52% ao Brasil, mas cabe um empate inteiro dentro deste jogo. Aqui a matemática é mansa: vamos explicar o que é xG e Poisson de um jeito que a tua avó entende. E depois descemos ao essencial, jogador por jogador, com o oponente de cada um, a fraqueza a esconder e o plano para vencer. Onde o Japão machuca, e onde o Brasil deve bater."
+  },
+  "posts": [
+    {
+      "n": 1,
+      "kind": "cover",
+      "tag": "ABERTURA",
+      "headline": "O Brasil é favorito, mas o favorito também <em>chora</em>",
+      "body": "O modelo dá 52% ao Brasil contra o Japão nas oitavas. Sobra metade do universo para o sofrimento. Hoje não falamos só de probabilidade: olhamos os onze, um a um, com nome, oponente e plano.",
+      "sub": "BRA 52% · EMPATE 24,5% · JAP 23,5%",
+      "copy": "Toda Copa o brasileiro acorda dividido entre dois homens que moram nele: o craque que acredita e o derrotado que já sofreu. O modelo dá 52% ao Brasil contra o Japão. Parece muito. Não é. Sobra quase metade do universo para o empate e para a lágrima. O favorito também chora, e o futebol, esse santo vingativo, cobra a ingenuidade à vista. Por isso esta thread não vem consolar ninguém. Vem armar. Vamos explicar a matemática de um jeito que qualquer um entende, e depois descer ao osso: os onze do Brasil, homem a homem, com o oponente de cada um e o plano para vencê-lo. A pátria de chuteiras não tem direito de ser ingênua na segunda-feira."
+    },
+    {
+      "n": 2,
+      "kind": "math",
+      "tag": "MATEMÁTICA · xG",
+      "headline": "O que é o <em>xG</em>: a chance de cada chute virar gol",
+      "body": "xG é gol esperado. Cada finalização recebe uma nota de 0 a 1, a probabilidade de acabar na rede. Some tudo e tem o perigo real que um time criou. Na fase, o Brasil somou quase o dobro do Japão.",
+      "sub": "xG NA FASE · BRA 7,40 × 3,95 JAP",
+      "formula": "xG do time = soma do xG de cada chute (cada chute vale de 0 a 1)",
+      "copy": "Vamos do começo, sem susto. xG quer dizer gol esperado. Imagine que cada chute recebe uma nota entre zero e um: um pênalti vale perto de 0,76, porque costuma entrar; um chutão da intermediária vale 0,03, porque quase nunca entra. Somando a nota de todas as finalizações, você descobre quanto perigo de verdade um time criou, separando o mérito da sorte. E aqui a conta é eloquente: na fase de grupos o Brasil somou 7,40 de gol esperado contra 3,95 do Japão. Quase o dobro. Não foi acaso, foi volume, foi insistência, foi o Brasil criando como quem respira. A matéria-prima do triunfo está toda na mochila. Falta não desperdiçá-la."
+    },
+    {
+      "n": 3,
+      "kind": "math",
+      "tag": "MATEMÁTICA · POISSON",
+      "headline": "O modelo de <em>Poisson</em>: a fórmula que prevê o placar",
+      "body": "Sabendo quantos gols cada time costuma fazer, Poisson calcula a chance de cada placar. Rodando o jogo mil vezes na cabeça do computador, sai o veredito: Brasil 52%, empate 24,5%, Japão 23,5%.",
+      "sub": "λ BRA = 1,65 · λ JAP = 1,03",
+      "formula": "P(k gols) = λ^k · e^(−λ) / k!",
+      "copy": "Agora a fórmula que assusta no papel e é mansa na prática. Poisson responde a uma pergunta simples: se um time costuma fazer um número médio de gols, qual a chance de ele fazer exatamente zero, um, dois, três? Esse número médio é o lambda: 1,65 para o Brasil, 1,03 para o Japão. A fórmula P de k gols igual a lambda elevado a k, vezes e elevado a menos lambda, dividido por k fatorial, parece grega, mas só traduz a intuição de quem vê futebol: gol é raro, e quem cria mais tende a fazer mais. Cruzando os dois ataques, o computador joga a partida mil vezes e conta os finais. Resultado: Brasil vence em 52%, empata em 24,5%, perde em 23,5%. Favorito, sim. Favoritíssimo, jamais."
+    },
+    {
+      "n": 4,
+      "kind": "finding",
+      "tag": "PLACARES",
+      "headline": "O <em>empate</em> mora no andar de cima e desce a qualquer hora",
+      "body": "Os placares mais prováveis: 1 a 1 com 11,6%, 1 a 0 com 11,3%, 2 a 1 com 9,6%. O empate não é hipótese remota, é vizinho. E o Brasil só fica sem sofrer gol em 35,8% dos jogos.",
+      "sub": "1-1 (11,6%) · 1-0 (11,3%) · 2-1 (9,6%) · 0-0 (6,9%)",
+      "copy": "O modelo também desenha os finais mais prováveis, e eles deveriam tirar o sono de quem acha o jogo resolvido. O placar mais provável é o 1 a 1, com 11,6%. Logo atrás vem o 1 a 0 do Brasil, com 11,3%, e o 2 a 1, com 9,6%. Há até um 0 a 0 espreitando, com 6,9%. Repare bem: o empate não é uma hipótese remota nem um azar de filme. É um vizinho que mora no andar de cima e desce a escada a qualquer hora. Cabe um empate inteiro dentro deste jogo, e com ele a prorrogação, os pênaltis, o velho purgatório brasileiro. E mais: o Brasil só termina sem sofrer gol em 35,8% das vezes. Ou seja, na maioria dos roteiros, vamos tomar pelo menos um. Quem avisa não quer ver chorar."
+    },
+    {
+      "n": 5,
+      "kind": "math",
+      "tag": "MATEMÁTICA · FGT INDEX",
+      "headline": "O <em>FGT Index</em>: como damos nota a cada jogador",
+      "body": "Cada jogador vira percentil, comparado a todos os outros, e ganha nota de 0 a 100. Mas quem jogou pouco não é endeusado: o shrinkage puxa a nota para a média até o atleta acumular minutos.",
+      "sub": "nota = score·min/(min+90) + 50·90/(min+90)",
+      "formula": "nota = score · min/(min+90) + 50 · 90/(min+90)",
+      "copy": "Para julgar cada jogador sem injustiça, criamos o FGT Index. Funciona assim: pegamos cada estatística, comparamos o atleta com todos os outros, e transformamos isso num percentil, uma nota de zero a cem. Se você passa melhor que 90% dos colegas, sua nota de passe é 90. Simples. Mas há uma armadilha que todo torcedor conhece: o sujeito que entrou cinco minutos, fez um lençol e virou ídolo de uma jogada só. Para não cair nessa, usamos o shrinkage, um freio estatístico. A fórmula puxa a nota de quem jogou pouco de volta para a média 50, e só solta a nota plena quando o atleta acumula minutos de verdade. Assim a planilha não endeusa o relâmpago nem despreza o operário. Justiça com números."
+    },
+    {
+      "n": 6,
+      "kind": "finding",
+      "tag": "EFICIÊNCIA · O PARADOXO",
+      "headline": "O paradoxo do Japão: cria pouco, mas <em>mata</em> muito",
+      "body": "Matheus Cunha faz gol que não devia: +1,78 sobre o xG. Mas o Japão é o aviso: fez 7 gols com só 3,95 de xG, converte 1,77 vez o esperado, dos melhores aproveitamentos da Copa. Cria pouco e mata. Por isso não se pode dar a eles a chance de terceiro homem.",
+      "sub": "CUNHA +1,78 xG · JAPÃO 7 GOLS / 3,95 xG · 1,77× O ESPERADO",
+      "copy": "Há um homem nosso que faz gol que a estatística não mandava fazer: Matheus Cunha. Ele fez três gols com apenas 1,22 de gol esperado, um saldo de mais 1,78. Em bom português, transforma a meia-chance em rede, a sobra em festa, o impossível em rotina. Mas a mesma régua, virada para o outro lado, revela o paradoxo que tira o sono. O Japão é um time clínico, cirúrgico, assassino: fez sete gols com só 3,95 de gol esperado, convertendo 1,77 vez o que se esperava dele, um dos melhores aproveitamentos de toda a Copa. Repare na perversidade do número: aquele time cria pouco, mas o pouco que cria, ele mata. Não desperdiça quase nada. É a definição estatística do oportunista que vive de uma chance e a transforma em sentença. A lição é dura e clara: contra quem converte acima da conta, não se concede a oportunidade fácil. Sobretudo, não se entrega a eles a chance ensaiada do terceiro homem, que é justamente onde aquela frieza nipônica vira gol. Fecha-se a porta antes que a bola chegue."
+    },
+    {
+      "n": 7,
+      "kind": "finding",
+      "tag": "TRANSIÇÃO · O TERCEIRO HOMEM",
+      "headline": "O Japão não acaricia a bola, ele a <em>empurra</em> pra frente",
+      "body": "12,4% dos passes japoneses progridem ao terço final, contra 10,6% do Brasil. Time direto, em 3-4-2-1, que joga a dinâmica de terceiro homem: zagueiro, Ueda baixando como falso 9, volante livre e o passe nas costas para Maeda ou Ito infiltrarem. A jogada precisa morrer na origem.",
+      "sub": "PROGRESSÃO AO TERÇO FINAL · JAP 12,4% × 10,6% BRA",
+      "copy": "O Brasil tem mais posse e mais passe certo, 89,7% contra 86,6%. Mas há uma virtude japonesa que assusta justamente porque é o oposto do nosso charme: a verticalidade. Enquanto o Brasil acaricia a bola, o Japão a empurra para frente. Não é time de posse, é time direto, armado num 3-4-2-1 com três zagueiros que constroem e dois alas que viram linha de cinco ao defender. E a arma deles tem nome de geometria: a dinâmica de terceiro homem. Funciona como um relógio suíço de três ponteiros. O zagueiro toca em Ueda, o centroavante que baixa como falso nove para atrair um dos nossos marcadores; Ueda devolve para o volante que ficou livre de frente; e este, no terceiro toque, lança nas costas da defesa para Maeda ou Ito infiltrarem em velocidade. Foi exatamente assim que marcaram contra Suécia e Tunísia. Controlar a posse, portanto, não basta. A receita é matar essa jogada na origem, antes que o terceiro passe encontre o corredor aberto. Quem dá espaço ao Japão na transição assina a própria sentença."
+    },
+    {
+      "n": 8,
+      "kind": "finding",
+      "tag": "ALERTA COLETIVO · DUELOS",
+      "headline": "O Brasil ganha a porrada: <em>50%</em> no chão, <em>68%</em> no alto",
+      "body": "No corpo, o Japão é frágil: ganha só 48% dos duelos no chão e 49% no alto, contra 50% e 68% do Brasil. Time pouco físico, sofreu com a Suécia. Mas atenção: fomos driblados 21 vezes na fase, e contra um time vertical drible sofrido vira contra-ataque.",
+      "sub": "ALTO · BRA 68% × 49% JAP · CHÃO · BRA 50% × 48% JAP · BRASIL DRIBLADO 21×",
+      "copy": "Aqui está a primeira boa-nova com lastro de planilha: na disputa física, o Brasil ganha a porrada. No chão, vencemos 50% dos duelos contra 48% do Japão; e no alto, a diferença é abismo, 68% nossos contra apenas 49% deles. Aquele é um time de relojoeiros, não de lenhadores: pouco físico, e que sofreu visivelmente diante da Suécia e do porte de Isak. No corpo a corpo, a vantagem é verde e amarela, e o jogo aéreo é praticamente um confisco. Mas a vaidade tem um remendo: fomos driblados 21 vezes na fase de grupos. Cada drible sofrido é um defensor que ficou para trás, uma porta que se entreabre nas costas da linha. Contra um time vertical e clínico como o Japão, drible sofrido vira contra-ataque, e contra-ataque vira gol. A lição coletiva é simples: ganhar a porrada onde ela existe, e ter posição onde o bote falha. Defender com a cabeça antes de defender com a perna."
+    },
+    {
+      "n": 9,
+      "kind": "player",
+      "tag": "GOLEIRO · ALISSON",
+      "headline": "Alisson × <em>Ueda</em>: o muro contra o finalizador frio",
+      "body": "Pega o centroavante Ayase Ueda, frio de 0,42 xGI/90, que baixa como falso 9 para iniciar a jogada de terceiro homem. A fraqueza de Alisson é a saída de bola: erra 18% dos passes sob pressão. Plano: sair jogando com critério, porque Ueda pressiona a construção, e seguir sendo o muro de 1 gol sofrido em 3.",
+      "sub": "ALISSON 1 GOL SOFRIDO EM 3 JOGOS · 18% PASSES ERRADOS",
+      "copy": "No fundo do quintal, Alisson. É o muro: apenas um gol sofrido em três jogos na fase. Diante dele estará Ayase Ueda, centroavante de sangue frio, 0,42 de gol esperado mais assistência por 90 minutos, e que não é só um finalizador: é o gatilho da máquina japonesa. É Ueda quem baixa como falso nove para puxar um dos nossos zagueiros e armar, com a devolução e o terceiro toque, a infiltração nas costas. Por isso a saída de bola de Alisson vira matéria de Estado. Ele erra 18% dos passes quando pressionado, e Ueda foi feito para sufocar a primeira construção e caçar esse erro perto da nossa área. A ordem, portanto, é dupla: ser corajoso com a bola, mas com critério, e jamais arriscar o passe bonito quando o seguro resolve. Que Alisson seja o que sempre foi, o último homem e o primeiro consolo da nação. Mas que a coragem dele venha vestida de juízo."
+    },
+    {
+      "n": 10,
+      "kind": "player",
+      "tag": "ZAGUEIRO · GABRIEL",
+      "headline": "Gabriel × <em>Ueda</em>: não seguir o falso 9, e matar no alto",
+      "body": "Marca Ueda, mas a regra de ouro é NÃO segui-lo quando ele baixa, senão abre as costas para Maeda e Ito. E é a arma aérea do Brasil: 92% de duelos ganhos no alto, 11 vencidos. Na bola parada do Japão, frágil de cabeça, Gabriel é caminho de gol.",
+      "sub": "GABRIEL 92% DUELOS AÉREOS (11 GANHOS) · NÃO SEGUIR O UEDA",
+      "copy": "Se Alisson é o muro, Gabriel é o rochedo plantado à frente dele, e nesta partida ele carrega duas ordens, uma defensiva e outra ofensiva, ambas decisivas. A defensiva é contraintuitiva e precisa ser tatuada: não seguir o Ueda quando ele baixar. O centroavante baixa de propósito, como isca, para arrastar o zagueiro e abrir o espaço que Maeda e Ito atacam por trás. Se Gabriel morder a isca e for atrás, ele mesmo escancara a porta. Combate curto, sem se afastar da zona, e devolver Ueda à própria solidão. A ofensiva é pura poesia de números: Gabriel ganha 92% dos duelos aéreos, onze disputas vencidas no alto, e o Japão é frágil de cabeça, sofreu gols assim na fase. Logo, na bola parada, Gabriel não é zagueiro, é artilheiro disfarçado. Que ele suba com fome no escanteio e na falta lateral. Defesa que não segue a isca, e ataque que voa mais alto que o adversário."
+    },
+    {
+      "n": 11,
+      "kind": "player",
+      "tag": "ZAGUEIRO · MARQUINHOS",
+      "headline": "Marquinhos × <em>Nakamura</em>: cobrir Danilo e não cair na isca",
+      "body": "Capitão da linha: 73% de duelos e 67% no alto, perigo na bola parada. Como Gabriel, NÃO seguir o Ueda quando ele baixa. Plano: organizar a defesa em voz alta, cobrir as costas de Danilo, o ponto frágil da direita, e atacar o escanteio, onde o Japão é vulnerável de cabeça.",
+      "sub": "MARQUINHOS 73% DUELOS · 67% NO ALTO",
+      "copy": "Marquinhos é o cérebro da última linha, o capitão que rege a defesa como um maestro rege a orquestra. Sólido nos 73% de duelos ganhos e forte no alto, com 67%, ele não é o mais explosivo, mas é o mais inteligente: lê o lance antes que aconteça. Sua tarefa tem nome e endereço. Vale para ele a mesma lei que para Gabriel: quando Ueda baixar como falso nove, não ir atrás, não cair na isca que abre as costas para a infiltração. E há a responsabilidade quase paternal: cobrir Danilo, o ponto frágil da direita, antecipando o perigo daquele flanco antes que ele vire gol. Quando o Japão inverter o jogo para Nakamura, é Marquinhos quem aparece na cobertura. Na bola parada ofensiva, soma-se a Gabriel como ameaça aérea, porque a defesa japonesa cede de cabeça. Cabe ao capitão organizar, gritar, posicionar e remendar. A serenidade dele será, na segunda-feira, metade da nossa defesa."
+    },
+    {
+      "n": 12,
+      "kind": "player",
+      "tag": "LATERAL-ESQUERDO · DOUGLAS SANTOS",
+      "headline": "Douglas Santos × <em>Ito</em>: segurar atrás e ultrapassar por fora",
+      "body": "Pega Junya Ito, ponta perigosa, 0,51 xGI/90. Defensivamente, nunca dar o fundo e contar com a volta de Vinícius. Ofensivamente, é o nosso Dumfries: ultrapassar por fora para criar a entrada da área. Cuidado com a dobra de Doan mais o volante por aquele lado.",
+      "sub": "JUNYA ITO 0,51 xGI/90 · DOUGLAS ULTRAPASSA POR FORA",
+      "copy": "Pela esquerda da defesa, Douglas Santos tem dupla tarefa, e as duas pesam. Atrás, encontro marcado com Junya Ito, a ponta perigosa de 0,51 de gol esperado mais assistência por 90 minutos, que vive de pegar o fundo e cruzar. A regra é mandamento: nunca dar o fundo a Ito, jogar sempre de frente, atrasar a jogada e contar com a volta de Vinícius, porque ponta que não defende deixa o lateral órfão, ainda mais quando o Japão sobrecarrega o lado com ala, ponta e volante. À frente, porém, Douglas tem a chance de ser o nosso Dumfries: ultrapassar por fora, ganhar a linha de fundo enquanto Vini ataca o miolo, e assim abrir a entrada da área, onde o goleiro japonês mais sofre. Atenção redobrada com a dobra de Doan mais o volante naquele corredor. Se Douglas segurar Ito atrás e aparecer por fora à frente, ele ganha os dois jogos que terá de jogar ao mesmo tempo."
+    },
+    {
+      "n": 13,
+      "kind": "player",
+      "tag": "LATERAL-DIREITO · DANILO · O ALERTA",
+      "headline": "Danilo × <em>Nakamura</em>: o duelo a blindar",
+      "body": "Pega Keito Nakamura, o ala-esquerdo que dribla 83% das vezes. Fraqueza grave: Danilo ganha só 43% dos duelos. Plano: É O PONTO A BLINDAR. Dobra de Bruno e de Rayan baixando, com cobertura de Marquinhos. Jamais Danilo isolado um contra um.",
+      "sub": "DANILO 43% DUELOS · NAKAMURA DRIBLA 83%",
+      "copy": "Aqui está o ponto mais delicado de todo o dossiê, e é preciso dizer sem rodeios, porque o futebol não perdoa eufemismo. Danilo enfrentará Keito Nakamura, o ala que ataca pela esquerda japonesa e completa 83% dos dribles que tenta. E Danilo, hoje, ganha apenas 43% dos seus duelos. É a conta mais perigosa do jogo: o homem que mais dribla contra o nosso defensor que menos vence no um contra um. Deixar Danilo isolado com Nakamura é entregar a chave da casa ao ladrão. A estratégia, então, não pode ser pudica: dobra de marcação obrigatória, com Bruno Guimarães descendo para fechar o flanco e Rayan baixando para ajudar quando o ala avança, mais Marquinhos de prontidão na cobertura. Três cadeados para uma fechadura frágil. Jamais, em hipótese alguma, Danilo sozinho na ponta contra Nakamura. Este é o ponto a blindar. Se houver uma só ordem tática gravada a ferro nesta partida, é esta."
+    },
+    {
+      "n": 14,
+      "kind": "player",
+      "tag": "VOLANTE · CASEMIRO",
+      "headline": "Casemiro × <em>Kamada</em>: combate curto, não seguir o Ueda",
+      "body": "Pega Daichi Kamada, o cérebro japonês, 0,41 xGI/90 e 50% de dribles. Fraqueza: é driblado 1,8 vezes por 90. Plano: combate CURTO no Ueda quando ele baixa, sem se afastar da zona 14, senão abre a entrelinha para Kamada. Segurar a posição, jamais dar o bote.",
+      "sub": "KAMADA DRIBLA 50% · CASEMIRO DRIBLADO 1,8×/90",
+      "copy": "Casemiro é o cadeado da zona 14, aquela entrelinha mortal logo à frente da área, de onde nascem os gols sofridos. Diante dele, o cérebro japonês: Daichi Kamada, 0,41 de gol esperado mais assistência por 90, e 50% de dribles bem-sucedidos. É o duelo do experiente contra o astuto, e a chave de todo o jogo passa por aqui. Quando Ueda baixar como falso nove para armar a jogada de terceiro homem, é tentador para Casemiro sair atrás e abafar. Erro fatal. O combate tem de ser curto: incomodar Ueda sem se afastar da zona 14, porque, se Casemiro corre longe, abre exatamente a entrelinha de onde Kamada solta o passe assassino para as costas. E há o detalhe que muda tudo: Casemiro é driblado 1,8 vezes a cada 90 minutos, e Kamada pune o bote precipitado. Logo, a ordem é contraintuitiva para um guerreiro: não dar o bote, não morder a isca, ser parede e não lança. Que Casemiro guarde o castelo sem sair da muralha."
+    },
+    {
+      "n": 15,
+      "kind": "player",
+      "tag": "MEIA · BRUNO GUIMARÃES",
+      "headline": "Bruno Guimarães: o <em>motor</em>, com um passo à frente",
+      "body": "Motor da equipe, infiltra e dá assistências, mas errou 17 passes, 15% do total. Plano: acelerar a saída vertical com critério, dar um passo à frente para bloquear o volante Tanaka na origem da jogada, e descer para a dobra em Danilo quando preciso.",
+      "sub": "BRUNO 17 PASSES ERRADOS (15%)",
+      "copy": "Bruno Guimarães é o motor do time, o pulmão que liga a defesa ao ataque, o homem que corre por três, infiltra na área e ainda deixa o companheiro na cara do gol, como mostram suas assistências. É dele a tarefa de acelerar a saída, dar o primeiro passe vertical antes que o bloco japonês se feche como armadilha. Mas o motor tem uma fagulha solta: errou 17 passes na fase, 15% das tentativas, e o Japão foi desenhado para caçar o erro no meio e transformá-lo, no segundo seguinte, em transição. Logo, ousadia com critério: acelerar quando o campo abre, segurar quando ele fecha. E há uma tarefa cirúrgica: dar um passo à frente para bloquear o volante Tanaka, que é a peça que recebe livre na jogada de terceiro homem. Matar o relógio japonês no segundo ponteiro. Quando o perigo for por Nakamura, Bruno desce e dobra em Danilo. Que o motor ruja, mas não derrape na curva."
+    },
+    {
+      "n": 16,
+      "kind": "player",
+      "tag": "MEIA · LUCAS PAQUETÁ",
+      "headline": "Paquetá: o <em>passe</em> que ele não vai poder errar",
+      "body": "Foi quem mais errou passes: 19, 13% do total, e o Japão caça o erro no meio. Plano: jogo simples e rápido, uma e duas trocas de toque, sem segurar a bola. Defensivamente, fechar o lado para ajudar Douglas e bloquear o segundo meia, Kamada.",
+      "sub": "PAQUETÁ 19 PASSES ERRADOS · O QUE MAIS ERROU",
+      "copy": "Lucas Paquetá tem o talento de quem enxerga o passe antes dos outros, mas carrega nesta Copa um número incômodo: foi o brasileiro que mais errou passes, 19 ao todo, 13% das tentativas. É o tipo de estatística que passa em branco numa goleada e cobra caro numa oitava. E o Japão é o adversário errado para esse vício, porque vive de roubar a bola no meio e verticalizar no instante seguinte. A receita é despir a vaidade: jogo simples e rápido, uma troca de toque, duas no máximo, devolver a bola a quem está mais bem posicionado. Nada de segurar, nada de drible enfeitado na zona em que o erro vira contra-ataque. Mas Paquetá não joga só com a bola: sem ela, precisa fechar o lado para socorrer Douglas Santos contra a sobrecarga japonesa e bloquear Kamada, o cérebro que solta o passe nas costas. Que Paquetá use a inteligência não para complicar, mas para simplificar. Às vezes o passe mais bonito é o mais curto."
+    },
+    {
+      "n": 17,
+      "kind": "player",
+      "tag": "CENTROAVANTE · MATHEUS CUNHA",
+      "headline": "Matheus Cunha × <em>Itakura</em>: girar, finalizar e baixar como 4º homem",
+      "body": "Pega o zagueiro Ko Itakura. Força: o matador, +1,78 acima do xG. Plano ofensivo: atacar o intervalo entre os três zagueiros, girar de primeira e finalizar rápido. E pode baixar como 4º homem na marcação para ajudar a fechar a saída de bola japonesa.",
+      "sub": "CUNHA +1,78 GOLS ACIMA DO xG · O MATADOR",
+      "copy": "Matheus Cunha é o algoz silencioso, o homem que faz gol que a planilha não mandava fazer: mais 1,78 acima do gol esperado, três gols com apenas 1,22 de xG. Diante dele, a linha de três zagueiros japoneses que constroem com técnica, entre eles Ko Itakura. A virtude de Cunha não é a força bruta, é o instinto: aparece onde o defensor não olha. O plano ofensivo é cirúrgico, atacar o intervalo entre os zagueiros que constroem, aquela terra de ninguém onde a marcação se confunde, receber, girar de primeira e finalizar rápido, antes que Itakura recomponha. Ele não pode pensar duas vezes: o talento mora na decisão instantânea, no chute que sai antes do goleiro se armar. E há um serviço sujo que Cunha pode prestar: baixar como quarto homem na primeira marcação, ajudando a sufocar a saída de três zagueiros japoneses na origem. Que ele faça o de sempre, o gol improvável. Num jogo de detalhes, o matador é o nosso luxo escondido."
+    },
+    {
+      "n": 18,
+      "kind": "player",
+      "tag": "PONTA-ESQUERDA · VINÍCIUS JÚNIOR",
+      "headline": "Vinícius × <em>Sugawara</em>: a arma número um, na diagonal",
+      "body": "Pega o ala Yukinari Sugawara. É o alfa: 1,5 xGI/90, força da natureza. Perde 17% das bolas, mas tudo bem. Plano: 1v1 com Sugawara e, sobretudo, as diagonais para a entrada da área, onde o goleiro Suzuki sofre e decide lento. Aceitar as perdas pelo perigo.",
+      "sub": "VINÍCIUS 1,5 xGI/90 · O ALFA · PERDE 17% DAS BOLAS",
+      "copy": "Vinícius Júnior é o alfa, a força da natureza, o melhor argumento que o Brasil tem para escrever na ata. São 1,5 de gol esperado mais assistência por 90 minutos, número de fora da curva, e diante dele estará o ala Yukinari Sugawara, num duelo que pode decidir a classificação. Vini perde 17% das bolas que toca, e haverá quem reclame de cada perda. Que reclamem. Esse é o preço justo do gênio: para gerar o desequilíbrio que ninguém mais gera, ele precisa ousar, e ousar é errar às vezes. A estratégia é simples e corajosa: isolar Vinícius no um contra um com Sugawara, mas, acima de tudo, soltá-lo nas diagonais para a entrada da área. É lá que mora o filé. Quando a linha de cinco japonesa afunda, abre-se espaço na entrada da área, e o goleiro Suzuki, jovem e bom, peca por decidir devagar, lento na hora de sair. Holanda e Suécia furaram exatamente assim. Aceitam-se as perdas pelo perigo que cada arranque carrega. Não se guarda a melhor arma na caixa por medo do recuo."
+    },
+    {
+      "n": 19,
+      "kind": "player",
+      "tag": "PONTA-DIREITA · RAYAN",
+      "headline": "Rayan × <em>Nakamura</em>: cortar para dentro de pé trocado",
+      "body": "Canhoto pela direita, é o nosso pé trocado, como Summerville e Elanga, que marcaram cortando para dentro contra o Japão. Plano: cortar para a entrada da área e ser incisivo sobre Nakamura. Mas baixar para ajudar Danilo quando o ala japonês avançar.",
+      "sub": "RAYAN PÉ TROCADO · CORTA PARA DENTRO · AJUDA DANILO",
+      "copy": "Pela direita, Rayan é a segunda frente, o contraponto necessário para que o Japão não jogue todos os marcadores em cima de Vinícius. E ele carrega uma arma específica que os dados corroboram: é canhoto jogando pela direita, o tal pé trocado que corta para dentro. Foi exatamente assim que Summerville, da Holanda, e Elanga, da Suécia, furaram esta defesa, pontas de pé trocado cortando para a entrada da área quando a linha de cinco afunda, onde o goleiro Suzuki sofre e decide lento. Que Rayan faça o mesmo: cortar para dentro, ser incisivo, atacar o vão. Mas o jovem tem uma dívida defensiva que não pode esquecer: quando o ala Nakamura subir, é Rayan quem baixa para ajudar Danilo, o ponto frágil. Atacar com sangue, voltar com juízo. Quanto mais o Japão tiver de cuidar da direita de Rayan, mais sozinho ficará Vinícius do outro lado. Que a coragem dos novos seja a faísca."
+    },
+    {
+      "n": 20,
+      "kind": "finding",
+      "tag": "CORREDOR",
+      "headline": "A <em>esquerda</em>: onde o Brasil vive e o Japão sangra",
+      "body": "O Brasil concentra o perigo pela esquerda de Vinícius, e é justo ali, no intervalo entre lateral e zagueiro, que o Japão mais cede. Sobrecarregar esse corredor, atrair dois e soltar o terceiro nas costas.",
+      "sub": "PESO OFENSIVO · ESQUERDA × VÃO LATERAL-ZAGUEIRO JAP",
+      "copy": "Os mapas de calor não mentem nem bajulam, e os dois lados desta partida apontam para o mesmo lugar. O Brasil vive no campo adversário, com peso evidente pela esquerda, onde Vinícius transforma o gramado em palco particular. É dali que nasce a maior parte do nosso perigo. E do lado japonês, a costura que cede fica exatamente no intervalo entre o lateral e o zagueiro, o vão que Vini ataca por instinto. Quando o ataque do Brasil encontra a fragilidade da defesa do Japão no mesmo ponto do campo, não há economia de tinta: é ali que se deve bater, e bater de novo. A partitura está escrita no próprio chão: sobrecarregar o corredor esquerdo, atrair dois marcadores para Vinícius, e soltar o terceiro homem nas costas da defesa. Atrair, acelerar, atacar o vão. O resto é repetição até o Japão ceder."
+    },
+    {
+      "n": 21,
+      "kind": "finding",
+      "tag": "BOLA PARADA",
+      "headline": "Bola aérea e a entrada da área: as duas <em>portas</em> do Japão",
+      "body": "Duas fragilidades corroboradas. No alto, o Japão é frágil: Gabriel ganha 92% dos duelos aéreos, escanteio e cruzamento são caminho de gol. E na entrada da área, quando a linha de 5 afunda, as pontas de pé trocado, Rayan e Vini na diagonal, furam, como Summerville e Elanga fizeram.",
+      "sub": "GABRIEL 92% NO ALTO × JAPÃO 49% · ENTRADA DA ÁREA · PÉ TROCADO",
+      "copy": "Num jogo que o modelo desenha apertado, com empate rondando e o Japão fechado em bloco, há duas portas escancaradas que os dados confirmam. A primeira é o alto. O Japão é frágil de cabeça, sofreu cinco das quatorze chances que cedeu na fase em bolas aéreas, e o Brasil tem aqui um confisco: Gabriel ganha 92% dos duelos aéreos, Marquinhos 67%, Cunha 75%, contra um Japão que só vence 49%. Escanteio e cruzamento, portanto, não são detalhe, são caminho de gol ensaiado, e Gabriel e Marquinhos têm de subir com fome. A segunda porta é a entrada da área. Quando a linha de cinco japonesa afunda, abre-se o espaço logo à frente, e foi ali que Holanda e Suécia mataram, com pontas de pé trocado, Summerville e Elanga, cortando para dentro. A receita está dada: Rayan cortando da direita e Vini nas diagonais, contra um goleiro Suzuki que decide devagar. Duas portas, e a chave do Brasil cabe nas duas."
+    },
+    {
+      "n": 22,
+      "kind": "tactics",
+      "tag": "ESCALAÇÃO",
+      "headline": "O <em>4-3-3</em> torto, de propósito",
+      "body": "Um 4-3-3 assimétrico, inclinado para a esquerda de Vinícius. Casemiro fixo protegendo a zona 14; Bruno e Paquetá fazendo a ligação vertical; Cunha de referência; Vini e Rayan esticando a defesa.",
+      "sub": "4-3-3 ASSIMÉTRICO · CASEMIRO FIXO · SOBRECARGA À ESQUERDA",
+      "copy": "A recomendação é um 4-3-3 assimétrico, torto de propósito, inclinado para a esquerda como um boxeador que finge o golpe para o lado certo. No fundo, Alisson; a linha de Gabriel e Marquinhos no miolo, Douglas Santos e Danilo nas pontas, este último sempre protegido. No coração do desenho, Casemiro fixo, cadeado da zona 14, que não sobe, não caça ponta, não se deixa arrastar. À frente dele, Bruno Guimarães e Lucas Paquetá fazem a ligação e o primeiro passe vertical, acelerando a saída antes que o bloco japonês se feche. No ataque, Matheus Cunha de referência, atacando o intervalo dos zagueiros; Vinícius isolado à esquerda como arma número um; Rayan esticando a direita para abrir o campo. A ideia é uma só: sobrecarregar a esquerda, blindar a direita, e matar a transição no nascedouro. Talento na frente, método atrás."
+    },
+    {
+      "n": 23,
+      "kind": "tactics",
+      "tag": "O QUE NÃO FAZER",
+      "headline": "Os quatro <em>pecados</em> capitais a evitar",
+      "body": "Não subir os dois laterais juntos. Não deixar Casemiro caçar Kamada para fora da zona 14. Não forçar o vertical por dentro contra bloco compacto. Não cruzar para área vazia, sem ocupação. Cada um é convite à transição.",
+      "sub": "4 PECADOS · CADA UM É UM CONVITE AO CONTRA-ATAQUE",
+      "copy": "Tão importante quanto o que fazer é o que jamais se deve fazer, porque o futebol castiga o pecado à vista. O primeiro: subir os dois laterais ao mesmo tempo, deixando Danilo e Douglas adiantados juntos, escancarando as costas para a verticalidade japonesa. O segundo: deixar Casemiro morder a isca e caçar Kamada para longe da zona 14, abandonando o castelo para perseguir o astuto que justamente quer arrastá-lo. O terceiro: forçar o passe vertical por dentro contra um bloco compacto, jogando a bola na boca do leão que vive de roubá-la no meio. E o quarto: cruzar para a área vazia, sem ninguém para concluir, doando a posse de bandeja. Cada um desses quatro erros é um convite formal, com data e hora, à transição japonesa. Evitá-los não é covardia. É a disciplina que separa o Brasil que avança do Brasil que chora."
+    },
+    {
+      "n": 24,
+      "kind": "finding",
+      "tag": "O BANCO",
+      "headline": "O banco que troca <em>peça por peça</em> do mesmo molde",
+      "body": "Substituir bem é trocar arquétipo por arquétipo, não improvisar no susto. Sai criador, entra criador; o jogo pede cadeado, entra cofre; falta gol, entra finalizador. Manter os arquétipos é manter o plano vivo.",
+      "sub": "ARQUÉTIPOS · FINALIZADOR · CRIADOR · COFRE",
+      "copy": "Um plano só sobrevive aos 90 minutos se o banco respeitar a sua lógica. A análise por arquétipos revela três funções que decidem o jogo: o Finalizador, gente como Vini e Cunha; o Criador, como Bruno e Paquetá; e o Cofre, o defensor ou volante seguro, no molde de Casemiro e Marquinhos. Substituir bem é trocar peça por peça do mesmo feitio, e não improvisar função no desespero do último quarto de hora. Quando o jogo pedir mais controle, entra um Cofre para fechar a casa. Quando faltar gol, entra um Finalizador fresco para a área. Quando cair o ritmo de criação, entra um Criador para reorganizar a saída. Trocar um criador por um zagueiro porque o placar assusta é desmontar o próprio plano. O banco inteligente não muda o time: ele renova o time mantendo a alma. Mexer com método, não com pânico."
+    },
+    {
+      "n": 25,
+      "kind": "verdict",
+      "tag": "VEREDITO",
+      "headline": "A pátria de chuteiras avança pelo <em>método</em>",
+      "body": "52%, o talento de sempre e a planilha do lado do coração. Há lastro extra: em outubro de 2024 o Brasil de Ancelotti já bateu este Japão por 2 a 0, e os japoneses chegam desfalcados, sem Mitoma e Minamino, com Kubo lesionado em dúvida. Que Danilo seja blindado e Casemiro segure a zona 14. O Brasil passa pelo mérito.",
+      "sub": "BRA 52% · PRECEDENTE 2-0 EM OUT/24 · JAPÃO DESFALCADO",
+      "copy": "No fim, o futebol não cabe inteiro em planilha nenhuma, graças a Deus. Mas o Brasil de 2026 tem a obrigação de juntar as duas coisas que sempre andaram separadas no nosso peito: o talento que o céu deu e o método que o homem constrói. O modelo dá 52%, e há lastro além do número. Em outubro de 2024, o Brasil de Ancelotti venceu este mesmo Japão por 2 a 0 em amistoso, e Martinelli marcou explorando justamente a entrada da área, a porta que segue aberta. Amistoso é amistoso, não decide nada, mas o encaixe tático favorece o Brasil. E os japoneses chegam mancos: sem Mitoma, sem Minamino, com Takefusa Kubo lesionado e em dúvida. O ataque deles vem desfalcado. Que o Vini ataque a entrada da área contra Suzuki, que o Cunha mate no intervalo dos zagueiros, que o Alisson siga muro, que Danilo seja blindado a sete chaves contra Nakamura, que Casemiro guarde a zona 14 sem seguir o Ueda. Cada homem no seu posto, cada fraqueza escondida. A torcida desta vez é lírica e científica ao mesmo tempo. A pátria de chuteiras merece avançar pelo caminho mais bonito que existe: o do mérito."
+    }
+  ]
+}

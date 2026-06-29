@@ -17,7 +17,17 @@ from typing import Iterable
 
 import numpy as np
 import pandas as pd
-
+from heatmap_compose import (
+    build_composites,
+    build_duel_composites,
+    build_player_composites,
+)
+from home_html import render_home
+from models import build_models
+from ranking_html import render_ranking
+from report_html import pick_starting_xi, render_report
+from social_card import build_social_card
+from thread_html import render_thread
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data" / "16avos"
@@ -27,10 +37,17 @@ DB_PATH = BUILD_DIR / "footgametheory.sqlite"
 DOCS_DIR = ROOT / "docs"
 ASSET_DIR = DOCS_DIR / "assets" / "heatmaps"
 REPORT_PATH = DOCS_DIR / "brasil-japao-moneyball.html"
+THREAD_PATH = DOCS_DIR / "brasil-japao-thread.html"
+RANKING_PATH = DOCS_DIR / "ranking.html"
+INDEX_PATH = DOCS_DIR / "index.html"
 
 TEAM_LABEL = {"brasil": "Brasil", "japao": "Japão"}
 ROLE_LABEL = {0: "Goleiro", 1: "Defesa", 2: "Meio", 3: "Ataque"}
-LANE_LABEL = {"left": "corredor esquerdo", "center": "corredor central", "right": "corredor direito"}
+LANE_LABEL = {
+    "left": "corredor esquerdo",
+    "center": "corredor central",
+    "right": "corredor direito",
+}
 THIRD_LABEL = {"low": "terço baixo", "mid": "terço médio", "high": "terço alto"}
 
 NUMERIC_COLUMNS = [
@@ -149,10 +166,6 @@ def signed_fmt(value: float, digits: int = 2) -> str:
     return f"{sign}{value:.{digits}f}"
 
 
-def html_escape(value: object) -> str:
-    return html.escape(str(value), quote=True)
-
-
 def extract_archives() -> None:
     EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
     for archive in sorted(DATA_DIR.glob("*.zip")):
@@ -225,7 +238,9 @@ def load_stats() -> pd.DataFrame:
             player_label(player, shirt)
             for player, shirt in zip(df[COL["Player"]], df[COL["Shirt"]])
         ]
-        df["role"] = df[COL["Position"]].map(lambda pos: ROLE_LABEL.get(int(pos), "Indefinido"))
+        df["role"] = df[COL["Position"]].map(
+            lambda pos: ROLE_LABEL.get(int(pos), "Indefinido")
+        )
         df["played"] = df[COL["Minutes played"]] > 0
         frames.append(df)
 
@@ -245,7 +260,9 @@ def read_png_rgba(path: Path) -> np.ndarray:
         chunk_type = raw_bytes[pos + 4 : pos + 8]
         payload = raw_bytes[pos + 8 : pos + 8 + length]
         if chunk_type == b"IHDR":
-            width, height, bit_depth, color_type, _, _, _ = struct.unpack(">IIBBBBB", payload)
+            width, height, bit_depth, color_type, _, _, _ = struct.unpack(
+                ">IIBBBBB", payload
+            )
         elif chunk_type == b"IDAT":
             idat += payload
         elif chunk_type == b"IEND":
@@ -253,7 +270,9 @@ def read_png_rgba(path: Path) -> np.ndarray:
         pos += 12 + length
 
     if bit_depth != 8 or color_type != 6:
-        raise ValueError(f"Unsupported PNG format in {path}: bit_depth={bit_depth}, color_type={color_type}")
+        raise ValueError(
+            f"Unsupported PNG format in {path}: bit_depth={bit_depth}, color_type={color_type}"
+        )
 
     decompressed = zlib.decompress(idat)
     bpp = 4
@@ -264,7 +283,9 @@ def read_png_rgba(path: Path) -> np.ndarray:
     for y in range(int(height)):
         filter_type = decompressed[cursor]
         cursor += 1
-        recon = np.frombuffer(decompressed[cursor : cursor + stride], dtype=np.uint8).copy()
+        recon = np.frombuffer(
+            decompressed[cursor : cursor + stride], dtype=np.uint8
+        ).copy()
         cursor += stride
 
         if filter_type == 1:
@@ -284,7 +305,9 @@ def read_png_rgba(path: Path) -> np.ndarray:
                 upper_left = int(prev[x - bpp]) if x >= bpp else 0
                 p = left + up - upper_left
                 pa, pb, pc = abs(p - left), abs(p - up), abs(p - upper_left)
-                predictor = left if pa <= pb and pa <= pc else up if pb <= pc else upper_left
+                predictor = (
+                    left if pa <= pb and pa <= pc else up if pb <= pc else upper_left
+                )
                 recon[x] = (int(recon[x]) + predictor) & 255
         elif filter_type != 0:
             raise ValueError(f"Unsupported PNG filter {filter_type} in {path}")
@@ -302,7 +325,11 @@ def heat_weight(path: Path) -> np.ndarray:
     saturation = (maxc - minc) / (maxc + 1.0)
     brightness = 0.2126 * arr[..., 0] + 0.7152 * arr[..., 1] + 0.0722 * arr[..., 2]
     warm_bias = np.maximum(0.0, arr[..., 0] - 0.55 * arr[..., 2]) / 255.0
-    return np.maximum(0.0, brightness - 45.0) * np.maximum(0.0, saturation - 0.08) * (0.7 + 0.6 * warm_bias)
+    return (
+        np.maximum(0.0, brightness - 45.0)
+        * np.maximum(0.0, saturation - 0.08)
+        * (0.7 + 0.6 * warm_bias)
+    )
 
 
 def analyze_heatmap(path: Path) -> dict[str, float]:
@@ -338,10 +365,14 @@ def analyze_heatmap(path: Path) -> dict[str, float]:
         "centroid_y": cy,
         "active_area": float(mask.mean()),
         "left_lane_share": float(weight[(yy < h / 3) & mask].sum() / total),
-        "center_lane_share": float(weight[(yy >= h / 3) & (yy < 2 * h / 3) & mask].sum() / total),
+        "center_lane_share": float(
+            weight[(yy >= h / 3) & (yy < 2 * h / 3) & mask].sum() / total
+        ),
         "right_lane_share": float(weight[(yy >= 2 * h / 3) & mask].sum() / total),
         "low_third_share": float(weight[(xx < w / 3) & mask].sum() / total),
-        "mid_third_share": float(weight[(xx >= w / 3) & (xx < 2 * w / 3) & mask].sum() / total),
+        "mid_third_share": float(
+            weight[(xx >= w / 3) & (xx < 2 * w / 3) & mask].sum() / total
+        ),
         "high_third_share": float(weight[(xx >= 2 * w / 3) & mask].sum() / total),
         "high_intensity_share": float(weight[(weight >= hot_cut) & mask].sum() / total),
         "length_spread": math.sqrt(x_var),
@@ -350,13 +381,17 @@ def analyze_heatmap(path: Path) -> dict[str, float]:
     }
 
 
-def match_heatmap_to_player(stats: pd.DataFrame, match_id: str, filename: str) -> pd.Series | None:
+def match_heatmap_to_player(
+    stats: pd.DataFrame, match_id: str, filename: str
+) -> pd.Series | None:
     base = slugify(filename.replace("_heatmap.png", ""))
     active = stats[(stats["match_id"] == match_id) & (stats["played"])].copy()
     shirt_match = re.match(r"(.+)_([0-9]+)$", base)
     if shirt_match:
         name_slug, shirt = shirt_match.group(1), int(shirt_match.group(2))
-        rows = active[(active["player_slug"] == name_slug) & (active[COL["Shirt"]] == shirt)]
+        rows = active[
+            (active["player_slug"] == name_slug) & (active[COL["Shirt"]] == shirt)
+        ]
         if len(rows) == 1:
             return rows.iloc[0]
 
@@ -423,12 +458,16 @@ def percentile(series: pd.Series, higher_is_better: bool = True) -> pd.Series:
     return ranked if higher_is_better else 100 - ranked
 
 
-def safe_rate(numerator: pd.Series, denominator: pd.Series, default: float = 0.0) -> pd.Series:
+def safe_rate(
+    numerator: pd.Series, denominator: pd.Series, default: float = 0.0
+) -> pd.Series:
     rate = numerator / denominator.replace(0, np.nan)
     return rate.replace([np.inf, -np.inf], np.nan).fillna(default)
 
 
-def build_player_aggregates(stats: pd.DataFrame, heatmaps: pd.DataFrame) -> pd.DataFrame:
+def build_player_aggregates(
+    stats: pd.DataFrame, heatmaps: pd.DataFrame
+) -> pd.DataFrame:
     active = stats[stats["played"]].copy()
     numeric = [COL[c] for c in NUMERIC_COLUMNS if COL[c] in active.columns]
     sum_cols = [
@@ -437,20 +476,39 @@ def build_player_aggregates(stats: pd.DataFrame, heatmaps: pd.DataFrame) -> pd.D
         if col not in {COL["FotMob rating"], COL["Shirt"], COL["Position"]}
         and not col.endswith("_pct")
     ]
-    grouped = active.groupby(["team", "team_label", "player_key", "player_label", COL["Player"], COL["Shirt"], COL["Position"], "role"], as_index=False)
+    grouped = active.groupby(
+        [
+            "team",
+            "team_label",
+            "player_key",
+            "player_label",
+            COL["Player"],
+            COL["Shirt"],
+            COL["Position"],
+            "role",
+        ],
+        as_index=False,
+    )
     agg = grouped[sum_cols].sum()
     agg = agg.rename(columns={COL["Minutes played"]: "minutes_played"})
 
     ratings = (
         active.groupby("player_key")
-        .apply(lambda g: weighted_average(g, COL["FotMob rating"], COL["Minutes played"]), include_groups=False)
+        .apply(
+            lambda g: weighted_average(g, COL["FotMob rating"], COL["Minutes played"]),
+            include_groups=False,
+        )
         .rename("weighted_rating")
         .reset_index()
     )
     apps = active.groupby("player_key").size().rename("appearances").reset_index()
-    agg = agg.merge(ratings, on="player_key", how="left").merge(apps, on="player_key", how="left")
+    agg = agg.merge(ratings, on="player_key", how="left").merge(
+        apps, on="player_key", how="left"
+    )
 
-    rename_map = {COL[c]: metric_name(c) for c in NUMERIC_COLUMNS if COL[c] in agg.columns}
+    rename_map = {
+        COL[c]: metric_name(c) for c in NUMERIC_COLUMNS if COL[c] in agg.columns
+    }
     agg = agg.rename(columns=rename_map)
     if "minutes_played" not in agg:
         agg["minutes_played"] = agg[metric_name("Minutes played")]
@@ -506,29 +564,51 @@ def build_player_aggregates(stats: pd.DataFrame, heatmaps: pd.DataFrame) -> pd.D
 
     agg["xgi"] = agg["expected_goals_xg"] + agg["expected_assists_xa"]
     agg["total_passes"] = agg["accurate_passes_total"]
-    agg["inaccurate_passes"] = (agg["total_passes"] - agg["accurate_passes"]).clip(lower=0)
+    agg["inaccurate_passes"] = (agg["total_passes"] - agg["accurate_passes"]).clip(
+        lower=0
+    )
     agg["pass_accuracy"] = safe_rate(agg["accurate_passes"], agg["total_passes"])
     agg["pass_error_rate"] = safe_rate(agg["inaccurate_passes"], agg["total_passes"])
-    agg["progressive_pass_rate"] = safe_rate(agg["passes_into_final_third"], agg["total_passes"])
-    agg["dribble_success_rate"] = safe_rate(agg["successful_dribbles"], agg["successful_dribbles_total"])
-    agg["cross_accuracy"] = safe_rate(agg["accurate_crosses"], agg["accurate_crosses_total"])
-    agg["long_ball_accuracy"] = safe_rate(agg["accurate_long_balls"], agg["accurate_long_balls_total"])
-    agg["shot_accuracy_rate"] = safe_rate(agg["shot_accuracy"], agg["shot_accuracy_total"])
+    agg["progressive_pass_rate"] = safe_rate(
+        agg["passes_into_final_third"], agg["total_passes"]
+    )
+    agg["dribble_success_rate"] = safe_rate(
+        agg["successful_dribbles"], agg["successful_dribbles_total"]
+    )
+    agg["cross_accuracy"] = safe_rate(
+        agg["accurate_crosses"], agg["accurate_crosses_total"]
+    )
+    agg["long_ball_accuracy"] = safe_rate(
+        agg["accurate_long_balls"], agg["accurate_long_balls_total"]
+    )
+    agg["shot_accuracy_rate"] = safe_rate(
+        agg["shot_accuracy"], agg["shot_accuracy_total"]
+    )
     missing_shot = agg["shot_accuracy_rate"] == 0
     agg.loc[missing_shot, "shot_accuracy_rate"] = safe_rate(
         agg.loc[missing_shot, "shots_on_target"],
         agg.loc[missing_shot, "total_shots"],
     )
-    agg["ground_duel_win_rate"] = safe_rate(agg["ground_duels_won"], agg["ground_duels_won_total"], 0.5)
-    agg["aerial_duel_win_rate"] = safe_rate(agg["aerial_duels_won"], agg["aerial_duels_won_total"], 0.5)
-    agg["duel_win_rate"] = safe_rate(agg["duels_won"], agg["duels_won"] + agg["duels_lost"], 0.5)
-    agg["retention_risk"] = safe_rate(agg["dispossessed"] + agg["duels_lost"], agg["touches"])
+    agg["ground_duel_win_rate"] = safe_rate(
+        agg["ground_duels_won"], agg["ground_duels_won_total"], 0.5
+    )
+    agg["aerial_duel_win_rate"] = safe_rate(
+        agg["aerial_duels_won"], agg["aerial_duels_won_total"], 0.5
+    )
+    agg["duel_win_rate"] = safe_rate(
+        agg["duels_won"], agg["duels_won"] + agg["duels_lost"], 0.5
+    )
+    agg["retention_risk"] = safe_rate(
+        agg["dispossessed"] + agg["duels_lost"], agg["touches"]
+    )
     agg["pass_security_proxy"] = agg["pass_accuracy"]
     agg["shot_quality"] = safe_rate(agg["expected_goals_xg"], agg["total_shots"])
     agg = add_per90(agg, base_metrics + ["xgi", "total_passes", "inaccurate_passes"])
 
     if not heatmaps.empty:
-        hm = heatmaps.groupby(["team", "player_key"], as_index=False).apply(aggregate_heatmap, include_groups=False)
+        hm = heatmaps.groupby(["team", "player_key"], as_index=False).apply(
+            aggregate_heatmap, include_groups=False
+        )
         agg = agg.merge(hm, on=["team", "player_key"], how="left")
     for col in [
         "centroid_x",
@@ -550,11 +630,17 @@ def build_player_aggregates(stats: pd.DataFrame, heatmaps: pd.DataFrame) -> pd.D
         agg[col] = agg[col].fillna(0.0)
 
     scored = score_players(agg)
-    return scored.sort_values(["team", "overall_index"], ascending=[True, False]).reset_index(drop=True)
+    return scored.sort_values(
+        ["team", "overall_index"], ascending=[True, False]
+    ).reset_index(drop=True)
 
 
 def aggregate_heatmap(group: pd.DataFrame) -> pd.Series:
-    weights = group["minutes_played"].replace(0, np.nan).fillna(group["heat_intensity"].clip(lower=0.001))
+    weights = (
+        group["minutes_played"]
+        .replace(0, np.nan)
+        .fillna(group["heat_intensity"].clip(lower=0.001))
+    )
     cols = [
         "centroid_x",
         "centroid_y",
@@ -602,7 +688,9 @@ def score_players(agg: pd.DataFrame) -> pd.DataFrame:
         if col not in universe:
             return pd.Series(50.0, index=out.index)
         values = percentile(universe[col], good)
-        return out["player_key"].map(dict(zip(universe["player_key"], values))).fillna(50)
+        return (
+            out["player_key"].map(dict(zip(universe["player_key"], values))).fillna(50)
+        )
 
     out["attack_index"] = weighted_index(
         [
@@ -764,34 +852,70 @@ def build_team_tables(stats: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
         COL["Duels lost"],
         COL["Fouls committed"],
     ]
-    team_match = active.groupby(["team", "team_label", "match_id", "opponent_label"], as_index=False)[metrics].sum()
+    team_match = active.groupby(
+        ["team", "team_label", "match_id", "opponent_label"], as_index=False
+    )[metrics].sum()
     team_match = team_match.rename(columns={col: metric_name(col) for col in metrics})
-    team = team_match.groupby(["team", "team_label"], as_index=False).sum(numeric_only=True)
+    team = team_match.groupby(["team", "team_label"], as_index=False).sum(
+        numeric_only=True
+    )
     for frame in (team_match, team):
         frame["total_passes"] = frame["accurate_passes_total"]
-        frame["inaccurate_passes"] = (frame["total_passes"] - frame["accurate_passes"]).clip(lower=0)
-        frame["pass_accuracy"] = safe_rate(frame["accurate_passes"], frame["total_passes"])
-        frame["pass_error_rate"] = safe_rate(frame["inaccurate_passes"], frame["total_passes"])
-        frame["progressive_pass_rate"] = safe_rate(frame["passes_into_final_third"], frame["total_passes"])
-        frame["shot_accuracy_rate"] = safe_rate(frame["shot_accuracy"], frame["shot_accuracy_total"])
+        frame["inaccurate_passes"] = (
+            frame["total_passes"] - frame["accurate_passes"]
+        ).clip(lower=0)
+        frame["pass_accuracy"] = safe_rate(
+            frame["accurate_passes"], frame["total_passes"]
+        )
+        frame["pass_error_rate"] = safe_rate(
+            frame["inaccurate_passes"], frame["total_passes"]
+        )
+        frame["progressive_pass_rate"] = safe_rate(
+            frame["passes_into_final_third"], frame["total_passes"]
+        )
+        frame["shot_accuracy_rate"] = safe_rate(
+            frame["shot_accuracy"], frame["shot_accuracy_total"]
+        )
         fallback = frame["shot_accuracy_rate"] == 0
         frame.loc[fallback, "shot_accuracy_rate"] = safe_rate(
             frame.loc[fallback, "shots_on_target"],
             frame.loc[fallback, "total_shots"],
         )
-        frame["dribble_success_rate"] = safe_rate(frame["successful_dribbles"], frame["successful_dribbles_total"])
-        frame["cross_accuracy"] = safe_rate(frame["accurate_crosses"], frame["accurate_crosses_total"])
-        frame["long_ball_accuracy"] = safe_rate(frame["accurate_long_balls"], frame["accurate_long_balls_total"])
-        frame["ground_duel_win_rate"] = safe_rate(frame["ground_duels_won"], frame["ground_duels_won_total"], 0.5)
-        frame["aerial_duel_win_rate"] = safe_rate(frame["aerial_duels_won"], frame["aerial_duels_won_total"], 0.5)
-        frame["duel_win_rate"] = safe_rate(frame["duels_won"], frame["duels_won"] + frame["duels_lost"], 0.5)
-        frame["retention_risk"] = safe_rate(frame["dispossessed"] + frame["duels_lost"], frame["touches"])
-        frame["shot_on_target_rate"] = safe_rate(frame["shots_on_target"], frame["total_shots"])
+        frame["dribble_success_rate"] = safe_rate(
+            frame["successful_dribbles"], frame["successful_dribbles_total"]
+        )
+        frame["cross_accuracy"] = safe_rate(
+            frame["accurate_crosses"], frame["accurate_crosses_total"]
+        )
+        frame["long_ball_accuracy"] = safe_rate(
+            frame["accurate_long_balls"], frame["accurate_long_balls_total"]
+        )
+        frame["ground_duel_win_rate"] = safe_rate(
+            frame["ground_duels_won"], frame["ground_duels_won_total"], 0.5
+        )
+        frame["aerial_duel_win_rate"] = safe_rate(
+            frame["aerial_duels_won"], frame["aerial_duels_won_total"], 0.5
+        )
+        frame["duel_win_rate"] = safe_rate(
+            frame["duels_won"], frame["duels_won"] + frame["duels_lost"], 0.5
+        )
+        frame["retention_risk"] = safe_rate(
+            frame["dispossessed"] + frame["duels_lost"], frame["touches"]
+        )
+        frame["shot_on_target_rate"] = safe_rate(
+            frame["shots_on_target"], frame["total_shots"]
+        )
     team = team.fillna(0)
     return team_match, team
 
 
-def save_sqlite(stats: pd.DataFrame, heatmaps: pd.DataFrame, players: pd.DataFrame, team_match: pd.DataFrame, team: pd.DataFrame) -> None:
+def save_sqlite(
+    stats: pd.DataFrame,
+    heatmaps: pd.DataFrame,
+    players: pd.DataFrame,
+    team_match: pd.DataFrame,
+    team: pd.DataFrame,
+) -> None:
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(DB_PATH) as conn:
         stats.to_sql("player_match_stats", conn, if_exists="replace", index=False)
@@ -799,20 +923,34 @@ def save_sqlite(stats: pd.DataFrame, heatmaps: pd.DataFrame, players: pd.DataFra
         players.to_sql("player_aggregate", conn, if_exists="replace", index=False)
         team_match.to_sql("team_match_stats", conn, if_exists="replace", index=False)
         team.to_sql("team_aggregate", conn, if_exists="replace", index=False)
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_stats_team_player ON player_match_stats(team, player_key)")
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_heatmaps_team_player ON heatmap_features(team, player_key)")
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_stats_team_player ON player_match_stats(team, player_key)"
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_heatmaps_team_player ON heatmap_features(team, player_key)"
+        )
 
 
-from report_html import render_report
-
-
-def write_metric_exports(stats: pd.DataFrame, players: pd.DataFrame, team_match: pd.DataFrame, team: pd.DataFrame) -> None:
+def write_metric_exports(
+    stats: pd.DataFrame,
+    players: pd.DataFrame,
+    team_match: pd.DataFrame,
+    team: pd.DataFrame,
+) -> None:
     analysis_dir = ROOT / "analysis"
     analysis_dir.mkdir(parents=True, exist_ok=True)
-    stats.to_csv(analysis_dir / "player_match_stats.csv", index=False, quoting=csv.QUOTE_MINIMAL)
-    players.to_csv(analysis_dir / "player_aggregate.csv", index=False, quoting=csv.QUOTE_MINIMAL)
-    team_match.to_csv(analysis_dir / "team_match_stats.csv", index=False, quoting=csv.QUOTE_MINIMAL)
-    team.to_csv(analysis_dir / "team_aggregate.csv", index=False, quoting=csv.QUOTE_MINIMAL)
+    stats.to_csv(
+        analysis_dir / "player_match_stats.csv", index=False, quoting=csv.QUOTE_MINIMAL
+    )
+    players.to_csv(
+        analysis_dir / "player_aggregate.csv", index=False, quoting=csv.QUOTE_MINIMAL
+    )
+    team_match.to_csv(
+        analysis_dir / "team_match_stats.csv", index=False, quoting=csv.QUOTE_MINIMAL
+    )
+    team.to_csv(
+        analysis_dir / "team_aggregate.csv", index=False, quoting=csv.QUOTE_MINIMAL
+    )
 
 
 def main() -> None:
@@ -824,10 +962,39 @@ def main() -> None:
     team_match, team = build_team_tables(stats)
     save_sqlite(stats, heatmaps, players, team_match, team)
     write_metric_exports(stats, players, team_match, team)
-    REPORT_PATH.write_text(render_report(stats, heatmaps, players, team_match, team), encoding="utf-8")
+
+    starters = list(pick_starting_xi(players)["player_key"])
+    models = build_models(stats, players, team_match, starters)
+    composites = build_composites(heatmaps)
+    dossiers = models["dossiers"]
+    composites.update(build_player_composites(heatmaps, list(dossiers["player_key"])))
+    duel_pairs = list(zip(dossiers["player_key"], dossiers["opponent_key"]))
+    composites.update(build_duel_composites(heatmaps, duel_pairs))
+    build_social_card(composites)
+
+    REPORT_PATH.write_text(
+        render_report(stats, heatmaps, players, team_match, team, models, composites),
+        encoding="utf-8",
+    )
+    THREAD_PATH.write_text(
+        render_thread(players, team, models, composites),
+        encoding="utf-8",
+    )
+    RANKING_PATH.write_text(render_ranking(players), encoding="utf-8")
+    INDEX_PATH.write_text(
+        render_home(models, composites, players, heatmaps), encoding="utf-8"
+    )
+
     print(f"Wrote {REPORT_PATH.relative_to(ROOT)}")
+    print(f"Wrote {THREAD_PATH.relative_to(ROOT)}")
+    print(f"Wrote {RANKING_PATH.relative_to(ROOT)}")
+    print(f"Wrote {INDEX_PATH.relative_to(ROOT)}")
     print(f"Wrote {DB_PATH.relative_to(ROOT)}")
     print(f"Rows: stats={len(stats)} heatmaps={len(heatmaps)} players={len(players)}")
+    sim = models["simulation"]
+    print(
+        f"Poisson: BR {sim['p_win'] * 100:.0f}% / empate {sim['p_draw'] * 100:.0f}% / JP {sim['p_loss'] * 100:.0f}%"
+    )
 
 
 if __name__ == "__main__":
